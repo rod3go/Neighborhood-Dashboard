@@ -49,12 +49,12 @@ class Neighborhood::VacancyData
   private
 
   def get_buildings_from_violations(code_violations_data, code_violations)
-    legally_vagant_ids = code_violations.select do |building_id, violations|
+    legally_vacant_ids = code_violations.select do |building_id, violations|
       (violations.include?('NSVACANT') || violations.include?('NSBOARD01')) &&
       (violations - ['NSVACANT', 'NSBOARD01']).size > 0
     end
 
-    legally_vagant_ids.inject({}) { |result, (address, code_violations)|
+    legally_vacant_ids.inject({}) { |result, (address, code_violations)|
       result.merge(address => code_violations_data.select{|violation| violation['mapping_location']['human_address'] == address})
     }
   end
